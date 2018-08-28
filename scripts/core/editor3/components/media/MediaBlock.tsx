@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import ng from 'core/services/ng';
 import * as actions from '../../actions';
@@ -22,6 +21,18 @@ const DRAG_SCROLL_BUFFER = 150; // px
 const DRAG_SCROLL_BY = 50; // px
 const DRAG_SCROLL_TIMEOUT = 200; // ms
 
+interface MediaBlockProps {
+    cropImage: Function;
+    removeBlock: Function;
+    changeCaption: Function;
+    setLocked: Function;
+    block: any;
+    contentState: any;
+    blockProps: any;
+    showTitle?: Boolean;
+    readOnly?: Boolean;
+}
+
 /**
  * @ngdoc React
  * @module superdesk.core.editor3
@@ -30,7 +41,7 @@ const DRAG_SCROLL_TIMEOUT = 200; // ms
  * @param {Object} block Information about the block where this component renders.
  * @description This component renders an image block within the editor.
  */
-export class MediaBlockComponent extends React.Component<any, any> {
+export class MediaBlockComponent extends React.Component<MediaBlockProps, any> {
     static propTypes: any;
     static defaultProps: any;
 
@@ -332,18 +343,6 @@ export class MediaBlockComponent extends React.Component<any, any> {
         );
     }
 }
-
-MediaBlockComponent.propTypes = {
-    cropImage: PropTypes.func.isRequired,
-    removeBlock: PropTypes.func.isRequired,
-    changeCaption: PropTypes.func.isRequired,
-    setLocked: PropTypes.func.isRequired,
-    block: PropTypes.object.isRequired,
-    contentState: PropTypes.object.isRequired,
-    showTitle: PropTypes.bool,
-    readOnly: PropTypes.bool,
-    blockProps: PropTypes.object.isRequired,
-};
 
 const mapStateToProps = (state) => ({
     readOnly: state.readOnly,

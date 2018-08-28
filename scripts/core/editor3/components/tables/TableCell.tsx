@@ -1,8 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Editor, RichUtils, getDefaultKeyBinding} from 'draft-js';
 import {getSelectedEntityType, getSelectedEntityRange} from '../links/entityUtils';
 import {customStyleMap} from '../customStyleMap';
+
+interface TableCellProps {
+    editorState: Function,
+    readOnly: Boolean,
+    onChange: Function,
+    onUndo: Function,
+    onFocus: Function,
+}
 
 /**
  * @ngdoc React
@@ -13,7 +20,7 @@ import {customStyleMap} from '../customStyleMap';
  * @param onFocus {Function}
  * @description Handles a cell in the table, as well as the containing editor.
  */
-export class TableCell extends React.Component<any, any> {
+export class TableCell extends React.Component<TableCellProps, any> {
     static propTypes: any;
     static defaultProps: any;
 
@@ -44,6 +51,12 @@ export class TableCell extends React.Component<any, any> {
         }
 
         return getDefaultKeyBinding(e);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        // Prevent render loop to be triggered if there were no changes
+        return JSON.stringify(this.props) !== JSON.stringify(nextProps)
+            || JSON.stringify(this.state) !== JSON.stringify(nextState);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -180,11 +193,3 @@ export class TableCell extends React.Component<any, any> {
         );
     }
 }
-
-TableCell.propTypes = {
-    editorState: PropTypes.object.isRequired,
-    readOnly: PropTypes.bool.isRequired,
-    onChange: PropTypes.func.isRequired,
-    onUndo: PropTypes.func.isRequired,
-    onFocus: PropTypes.func.isRequired,
-};

@@ -30,6 +30,12 @@ import {
  * well as accommodate Editor3 custom atomic blocks.
  */
 class HTMLParser {
+    figures = {};
+    tables = {};
+    media = {};
+    associations: any;
+    tree = $('<div></div>');
+
     constructor(html, associations) {
         this.figures = {};
         this.tables = {};
@@ -85,6 +91,21 @@ class HTMLParser {
                     // continue
                 }
             }
+
+            // Figures can contain tables on paste - SDESK-2996
+            if (node.querySelector('table') !== null) {
+                this.tables[i] = $(node.querySelector('table')).html();
+
+                $(node).replaceWith(`<figure>BLOCK_TABLE_${i}></figure>`);
+                return;
+            }
+
+            // if (node.querySelector('.image-block')) {
+            //     this.media[i] = $(node).html();
+
+            //     $(node).replaceWith(`<figure>BLOCK_MEDIA_${i}></figure>`);
+            //     return;
+            // }
 
             // assume embed
             this.figures[i] = $(node).html();
@@ -276,7 +297,7 @@ class HTMLParser {
  * @param {string} html
  * @param {Object} associations (optional)
  */
-export function getContentStateFromHtml(html, associations) {
+export function getContentStateFromHtml(html: string, associations?) {
     return new HTMLParser(html, associations).contentState();
 }
 

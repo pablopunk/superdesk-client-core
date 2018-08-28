@@ -51,6 +51,7 @@ describe('editor3.component.table-cell', () => {
             <TableCell
                 editorState={EditorState.createWithContent(ContentState.createFromText('abc'))}
                 onChange={() => { /* no-op */ }}
+                onUndo={() => { /* no-op */ }}
                 readOnly={false}
                 onFocus={() => { /* no-op */ }} />
         );

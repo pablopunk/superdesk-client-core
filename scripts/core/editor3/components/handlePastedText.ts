@@ -5,7 +5,6 @@ import * as Suggestions from '../helpers/suggestions';
 import {sanitizeContent, inlineStyles} from '../helpers/inlineStyles';
 import {getAllCustomDataFromEditor, setAllCustomDataForEditor} from '../helpers/editor3CustomData';
 import {getCurrentAuthor} from '../helpers/author';
-import {htmlComesFromDraftjsEditor} from '../helpers/htmlComesFromDraftjsEditor';
 
 function removeMediaFromHtml(htmlString) {
     const element = document.createElement('div');
@@ -20,6 +19,7 @@ function removeMediaFromHtml(htmlString) {
 }
 
 const HANDLED = 'handled';
+/* eslint-disable no-unused-vars */
 const NOT_HANDLED = 'not-handled';
 
 /**
@@ -55,10 +55,6 @@ export function handlePastedText(text, _html) {
 
         onPasteFromSuggestingMode(content);
         return HANDLED;
-    }
-
-    if (htmlComesFromDraftjsEditor(html)) {
-        return NOT_HANDLED;
     }
 
     return processPastedHtml(this.props, html || text);

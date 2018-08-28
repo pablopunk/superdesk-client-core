@@ -1,6 +1,5 @@
 import {waitUntil} from 'core/helpers/waitUtil';
 
-
 describe('authoring', () => {
     var GUID = 'urn:tag:superdesk-1';
     var USER = 'user:1';
@@ -687,7 +686,8 @@ describe('cropImage', () => {
             }).then(() => {
                 done();
                 expect(scope.item.hasCrops).toBe(true);
-            });
+            })
+                .catch(done.fail);
         });
     });
 });
@@ -2013,7 +2013,7 @@ describe('authoring container directive', () => {
     beforeEach(window.module('superdesk.apps.searchProviders'));
 
     beforeEach(inject(($templateCache) => {
-        // avoid loading of authoring
+    // avoid loading of authoring
         $templateCache.put('scripts/apps/authoring/views/authoring-container.html', '<div></div>');
     }));
 

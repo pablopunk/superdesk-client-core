@@ -20,6 +20,7 @@ describe('editor3.components.media-block', () => {
                 cropImage={() => ({})}
                 changeCaption={() => ({})}
                 setLocked={() => ({})}
+                removeBlock={() => ({})}
                 block={block}
                 blockProps={servicesStub}
                 contentState={contentState} />);
@@ -37,6 +38,7 @@ describe('editor3.components.media-block', () => {
                 cropImage={cropImage}
                 changeCaption={() => ({})}
                 setLocked={() => ({})}
+                removeBlock={() => ({})}
                 block={block}
                 blockProps={servicesStub}
                 contentState={contentState} />);
