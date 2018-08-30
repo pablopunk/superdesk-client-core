@@ -125,13 +125,18 @@ function insertContentInState(props: any, _pastedContent: ContentState) : DraftH
         contentState = contentState.addEntity(entity);
 
         blocks = blocks.concat(
-            atomicBlock(block.getData(), contentState.getLastCreatedEntityKey()),
-            emptyBlock()
+            atomicBlock(block.getData(), contentState.getLastCreatedEntityKey())
         );
     });
 
     if (hasAtomicBlocks) {
         contentState = Modifier.setBlockType(contentState, selection, 'atomic');
+
+        if (contentState.getLastBlock().getType() === 'atomic') {
+            // Add empty block after atomic block
+            // to ensure writing is possible
+            blocks = blocks.concat(emptyBlock());
+        }
     }
 
     let nextEditorState = EditorState.push(
