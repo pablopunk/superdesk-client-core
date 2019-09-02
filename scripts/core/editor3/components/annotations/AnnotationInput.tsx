@@ -296,6 +296,7 @@ class AnnotationInputBody extends React.Component<IProps, IState> {
                                                         annotationInputComponent={annotationInputComponent}
                                                         mode={this.getAnnotationInputMode()}
                                                         onApplyAnnotation={(html: string) => {
+                                                        // call here: onAnnotationUpdate on every extension
                                                             this.onChange(
                                                                 convertToRaw(getContentStateFromHtml(html)),
                                                                 this.onSubmit,

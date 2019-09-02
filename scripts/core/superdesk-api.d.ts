@@ -53,6 +53,7 @@ declare module 'superdesk-api' {
             globalMenuHorizontal?: Array<React.ComponentType>;
             editor3?: {
                 annotationInputTabs?: Array<IEditor3AnnotationInputTab>;
+                onAnnotationUpdate?(annotation: any): any; // called on create/update annotation
             }
             articleListItemWidgets?: Array<React.ComponentType<{article: IArticle}>>;
             articleGridItemWidgets?: Array<React.ComponentType<{article: IArticle}>>;
@@ -860,7 +861,7 @@ declare module 'superdesk-api' {
         ProductID: string;
         DateSent: string;
         TimeSent: string;
-    
+
         // application
         ObjectName: string;
         EditStatus: string;
