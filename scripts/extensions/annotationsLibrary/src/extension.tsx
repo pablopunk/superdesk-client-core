@@ -43,6 +43,9 @@ var extension: IExtension = {
                                 annotationFromLibraryTabSelectedByDefault(superdesk, annotationText, mode),
                         },
                     ],
+                    onAnnotationUpdate(annotation) {
+                        alert(annotation);
+                    },
                 },
                 pages: [
                     {

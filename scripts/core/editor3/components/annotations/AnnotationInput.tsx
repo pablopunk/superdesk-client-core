@@ -51,6 +51,7 @@ class AnnotationInputBody extends React.Component<IProps, IState> {
     static defaultProps: any;
     tabsRef: NavTabs;
     annotationInputTabsFromExtensions: Array<IEditor3AnnotationInputTab>;
+    onAnnotationUpdateFunctions: Array<(annotation: any) => any>;
 
     constructor(props) {
         super(props);
@@ -91,6 +92,16 @@ class AnnotationInputBody extends React.Component<IProps, IState> {
                     ? activationResult.contributions.editor3.annotationInputTabs
                     : [],
         );
+
+        this.onAnnotationUpdateFunctions = flatMap(
+            Object.values(extensions).map(({activationResult}) => activationResult),
+            (activationResult) =>
+                activationResult.contributions != null
+                && activationResult.contributions.editor3 != null
+                && activationResult.contributions.editor3.onAnnotationUpdate != null
+                    ? activationResult.contributions.editor3.onAnnotationUpdate
+                    : [],
+        );
     }
 
     /**
@@ -128,6 +139,8 @@ class AnnotationInputBody extends React.Component<IProps, IState> {
                     {...highlightData, data: {...highlightData.data, msg, annotationType, date}},
                 );
             }
+
+            console.log({annotationType, msg, auhor: getAuthorInfo()});
 
             _hidePopups();
         }
@@ -296,7 +309,11 @@ class AnnotationInputBody extends React.Component<IProps, IState> {
                                                         annotationInputComponent={annotationInputComponent}
                                                         mode={this.getAnnotationInputMode()}
                                                         onApplyAnnotation={(html: string) => {
-                                                        // call here: onAnnotationUpdate on every extension
+                                                            console.log('calling annotation update');
+                                                            this.onAnnotationUpdateFunctions.forEach((onAnnotationUpdate) => {
+                                                                console.log(onAnnotationUpdate);
+                                                                onAnnotationUpdate(this.props.data.annotation);
+                                                            });
                                                             this.onChange(
                                                                 convertToRaw(getContentStateFromHtml(html)),
                                                                 this.onSubmit,
